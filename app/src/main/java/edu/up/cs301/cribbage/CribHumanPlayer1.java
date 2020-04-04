@@ -1,4 +1,4 @@
-package edu.up.cs301.tictactoe;
+package edu.up.cs301.cribbage;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
@@ -12,12 +12,12 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
  * @author Steven R. Vegdahl
  * @versio2 July 2013 
  */
-public class TTTComputerPlayer1 extends GameComputerPlayer
+public class CribHumanPlayer1 extends GameComputerPlayer
 {
     /*
      * Constructor for the TTTComputerPlayer1 class
      */
-    public TTTComputerPlayer1(String name) {
+    public CribHumanPlayer1(String name) {
         // invoke superclass constructor
         super(name); // invoke superclass constructor
     }
@@ -48,7 +48,7 @@ public class TTTComputerPlayer1 extends GameComputerPlayer
     	// we'll end up here again (and possibly again, and again). At some point,
     	// we'll end up randomly pick a move that is legal.
         Logger.log("TTTComputer", "Sending move");
-    	game.sendAction(new TTTMoveAction(this, yVal, xVal));
+    	game.sendAction(new CribMoveAction(this, yVal, xVal));
     	
     }
 }
