@@ -1,123 +1,148 @@
 package edu.up.cs301.cribbage;
 
+import java.util.ArrayList;
+
+import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 
 
 /**
- * Contains the state of a Tic-Tac-Toe game.  Sent by the game when
+ * Contains the state of a Cribbage game.  Sent by the game when
  * a player wants to enquire about the state of the game.  (E.g., to display
  * it, or to help figure out its next move.)
- * 
+ *
  * @author Steven R. Vegdahl
  * @version July 2013
  */
 public class CribState extends GameState {
     //Tag for logging
-    private static final String TAG = "TTTState";
-	private static final long serialVersionUID = 7552321013488624386L;
+    private static final String TAG = "CribState";
+    private static final long serialVersionUID = 7552321013488624386L;
 
-    ///////////////////////////////////////////////////
-    // ************** instance variables ************
-    ///////////////////////////////////////////////////
-	
-	// the 3x3 array of char that represents the X's and O's on the board
-    private char[][] board;
-    
-    // an int that tells whose move it is
-    private int playerToMove;
+    //instance variables
+    private int[][] board;
+    private int prevPegP1;
+    private int currPegP1;
+    private int prevPegP0;
+    private int currPegP0;
+
+    public int getWhoseMove() {
+        return whoseMove;
+    }
+
+    private int whoseMove;
+    private int player0Score;
+    private int player1Score;
+    private ArrayList<Card> player0Hand;
+
+    public ArrayList<Card> getPlayer0Hand() {
+        return player0Hand;
+    }
+
+    public ArrayList<Card> getPlayer1Hand() {
+        return player1Hand;
+    }
+
+    private ArrayList<Card> player1Hand;
+    private int dealerID;
+    private ArrayList<Card> deck;
+
+    public ArrayList<Card> getCrib() {
+        return crib;
+    }
+
+    private ArrayList<Card> crib;
+
+    public ArrayList<Card> getPlayedCards() {
+        return playedCards;
+    }
+
+    private ArrayList<Card> playedCards;
+
+    public ArrayList<Card> getDeck(){
+        return deck;
+    }
 
     /**
      * Constructor for objects of class TTTState
      */
     public CribState()
     {
-        // initialize the state to be a brand new game
-        board = new char[3][3];
-        for (int i = 0; i < 3; i++) {
-        	for (int j = 0; j < 3; j++) {
-        		board[i][j] = ' ';
-        	}
-        }
-        
-        // make it player 0's move
-        playerToMove = 0;
+        whoseMove = 0;
     }// constructor
-    
+
     /**
      * Copy constructor for class TTTState
-     *  
+     *
      * @param original
      * 		the TTTState object that we want to clong
      */
     public CribState(CribState original)
     {
-    	// create a new 3x3 array, and copy the values from
-    	// the original
-    	board = new char[3][3];
-    	for (int i = 0; i < 3; i++) {
-    		for (int j = 0; j < 3; j++) {
-    			board[i][j] = original.board[i][j];
-    		}
-    	}
-    	
-    	// copy the player-to-move information
-        playerToMove = original.playerToMove;
+        // copy the player-to-move information
+        whoseMove = original.whoseMove;
     }
 
-    /**
-     * Find out which piece is on a square
-     * 
-     * @param row
-	 *		the row being queried
-     * @param col
-     * 		the column being queried
-     * @return
-     * 		the piece at the given square; ' ' if no piece there;
-     * 		'?' if it is an illegal square
-     */
-    public char getPiece(int row, int col) {
-        // if we're out of bounds or anything, return '?';
-        if (board == null || row < 0 || col < 0) return '?';
-        if (row >= board.length || col >= board[row].length) return '?';
-
-        // return the character that is in the proper position
-        return board[row][col];
+    public int getPrevPeg(int id){
+        if(id == 0) {
+            return prevPegP0;
+        } else if(id == 1){
+            return prevPegP1;
+        } else {
+            return -1;
+        }
     }
 
-    /**
-     * Sets a piece on a square
-     * 
-     * @param row
-     * 		the row being queried
-     * @param
-     * 		col the column being queried
-     * @param
-     * 		piece the piece to place
-     */
-    public void setPiece(int row, int col, char piece) {
-        // if we're out of bounds or anything, return;
-        if (board == null || row < 0 || col < 0) return;
-        if (row >= board.length || col >= board[row].length) return;
+    public void setPrevPeg(int id, int location){
+        if(id == 0) {
+            prevPegP0 = location;
+        } else if(id == 1){
+            prevPegP1 = location;
+        }
+    }
 
-        // return the character that is in the proper position
-        board[row][col] = piece;
+    public int getCurrPeg(int id){
+        if(id == 0) {
+            return currPegP0;
+        } else if(id == 1){
+            return currPegP1;
+        } else {
+            return -1;
+        }
     }
-    
-    /**
-     * Tells whose move it is.
-     * 
-     * @return the index (0 or 1) of the player whose move it is.
-     */
-    public int getWhoseMove() {
-        return playerToMove;
+
+    public void setCurrPeg(int id, int location){
+        if(id == 0) {
+            currPegP0 = location;
+        } else if(id == 1){
+            currPegP1 = location;
+        }
     }
-    
-    /**
-     * set whose move it is
-     * @param id
-     * 		the player we want to set as to whose move it is
-     */
-    public void setWhoseMove(int id) {
-    	playerToMove = id;
+
+    public int getDealerID(){
+        return dealerID;
     }
+
+    public void setDealerID(int newID){
+        dealerID = newID;
+    }
+
+    public int getScore(int id){
+        if(id == 0){
+            return player0Score;
+        } else if(id == 1){
+            return player1Score;
+        } else {
+            return -1;
+        }
+    }
+
+    public void setScore(int id, int newScore){
+        if(id == 0){
+            player0Score += newScore;
+        } else if(id == 1){
+            player1Score += newScore;
+        }
+    }
+
 }
